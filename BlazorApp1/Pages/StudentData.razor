@@ -1,0 +1,72 @@
+﻿@page "/studentdata"
+@using BlazorApp1.Data
+<PageTitle>Student's Data</PageTitle>
+Всего студентов  - @students.Count()
+<input type="text" @bind="surname"/>
+<input type="text" @bind="name" />
+<input type="text" @bind="otc" />
+<input type="text" @bind="imagesr" />
+<input type="text" @bind="group_n" />
+<input type="datetime" @bind="bday" />
+<btn @onclick=addStudent>Добавить</btn>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Surname</th>
+            <th>Name</th>
+            <th>Patronymic</th>
+            <th>Photo</th>
+            <th>Group</th>
+            <th>Birthday</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Student stud in students)
+        {
+            <tr>
+                <td>@stud.ID</td>
+                <td>@stud.Surname</td>
+                <td>@stud.Name</td>
+                <td>@stud.Otch</td>
+                @if (String.IsNullOrEmpty(stud.Image))
+                {
+                    <td><img src="Images/anon.png" width="100px" height="100px"/></td>
+                }
+                else
+                {
+                    <td><img src="@imageLink(stud.Image)" width="100px" height="100px" /></td>
+                }
+                <td>@stud.Group</td>
+                <td>@stud.Birthday.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code
+{
+    List<Student> students = new List<Student> { };
+    string surname;
+    string name;
+    string otc;
+    string imagesr;
+    string group_n;
+    DateOnly bday;
+    public string imageLink(string imgsrc)
+    {
+        if (imgsrc == "")
+            return $"Images/anon.png";
+        return $"Images/{imgsrc}";
+    }
+    public void addStudent()
+    {
+        if (String.IsNullOrEmpty(surname) != true & String.IsNullOrEmpty(name) != true & String.IsNullOrEmpty(otc) != true & String.IsNullOrEmpty(group_n) != true)
+        {
+            int id = Random.Shared.Next(0, 2000);
+            Student st = new Student(id, surname, name, otc, imagesr,  group_n, bday);
+            students.Add(st);
+        }
+    }
+}
