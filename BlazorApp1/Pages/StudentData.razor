@@ -1,14 +1,14 @@
 ﻿@page "/studentdata"
 @using BlazorApp1.Data
 <PageTitle>Student's Data</PageTitle>
-Всего студентов  - @students.Count()
+<div>Всего студентов  - @students.Count()</div>
 <input type="text" @bind="surname"/>
 <input type="text" @bind="name" />
 <input type="text" @bind="otc" />
 <input type="text" @bind="imagesr" />
 <input type="text" @bind="group_n" />
-<input type="datetime" @bind="bday" />
-<btn @onclick=addStudent>Добавить</btn>
+<input type="date" @bind="bday" />
+<div><btn class="btn btn-primary" @onclick="addStudent">Добавить</btn></div>
 
 <table class="table">
     <thead>
@@ -68,5 +68,11 @@
             Student st = new Student(id, surname, name, otc, imagesr,  group_n, bday);
             students.Add(st);
         }
+        surname = "";
+        name = "";
+        otc = "";
+        imagesr = "";
+        group_n = "";
+        bday = DateOnly.MinValue;
     }
 }
