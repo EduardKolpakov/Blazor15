@@ -2,12 +2,23 @@
 @using BlazorApp1.Data
 <PageTitle>Student's Data</PageTitle>
 <div>Всего студентов  - @students.Count()</div>
-<input type="text" @bind="surname"/>
-<input type="text" @bind="name" />
-<input type="text" @bind="otc" />
-<input type="text" @bind="imagesr" />
-<input type="text" @bind="group_n" />
-<input type="date" @bind="bday" />
+<tr>
+    <td>Фамилия</td>
+    <td>Имя</td>
+    <td>Отчество</td>
+    <td>Фото</td>
+    <td>Группа</td>
+    <td>Дата рождения</td>
+</tr>
+<tr> 
+    <td><input type="text" @bind="surname" /></td>
+    <td><input type="text" @bind="name" /></td>
+    <td><input type="text" @bind="otc" /></td>
+    <td><input type="text" @bind="imagesr" /></td>
+    <td><input type="number" @bind="group_n" /></td>
+    <td><input type="date" @bind="bday" /></td>
+</tr>
+<input type="text" width="400px" @bind="errormsg" readonly="true"/>
 <div><btn class="btn btn-primary" @onclick="addStudent">Добавить</btn></div>
 
 <table class="table">
@@ -47,12 +58,13 @@
 
 @code
 {
+    string errormsg = "ХИХИХИХАХАХА";
     List<Student> students = new List<Student> { };
-    string surname;
-    string name;
-    string otc;
-    string imagesr;
-    string group_n;
+    string surname = null;
+    string name = null;
+    string otc = null;
+    string imagesr = null;
+    string group_n = null;
     DateOnly bday;
     public string imageLink(string imgsrc)
     {
@@ -62,11 +74,21 @@
     }
     public void addStudent()
     {
-        if (String.IsNullOrEmpty(surname) != true & String.IsNullOrEmpty(name) != true & String.IsNullOrEmpty(otc) != true & String.IsNullOrEmpty(group_n) != true)
+        while (true)
         {
+            if (string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(otc) || string.IsNullOrEmpty(group_n))
+            {
+                errormsg = "Пожалуйста, заполните данные!";
+                break;
+            }
+            else
+            {
+                errormsg = "Студент добавлен!";
+            }
             int id = Random.Shared.Next(0, 2000);
-            Student st = new Student(id, surname, name, otc, imagesr,  group_n, bday);
+            Student st = new Student(id, surname, name, otc, imagesr, group_n, bday);
             students.Add(st);
+            break;
         }
         surname = "";
         name = "";
