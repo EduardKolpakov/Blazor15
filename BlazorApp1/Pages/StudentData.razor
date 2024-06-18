@@ -51,6 +51,7 @@
                 }
                 <td>@stud.Group</td>
                 <td>@stud.Birthday.ToShortDateString()</td>
+                <td> <btn class="btn btn-primary" @onclick="e => DeleteStud(stud)"> Удалить </btn></td>
             </tr>
         }
     </tbody>
@@ -96,5 +97,9 @@
         imagesr = "";
         group_n = "";
         bday = DateOnly.MinValue;
+    }
+    public void DeleteStud(Student st)
+    {
+        students.Remove(st);
     }
 }
