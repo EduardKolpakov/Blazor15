@@ -78,6 +78,7 @@
     {
         while (true)
         {
+            bool numberfound = false;
             if (string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(otc) || string.IsNullOrEmpty(group_n))
             {
                 errormsg = "Пожалуйста, заполните данные!";
@@ -87,17 +88,49 @@
             {
                 errormsg = "Студент добавлен!";
             }
+            foreach (char letter in surname)
+            {
+                if (char.IsNumber(letter))
+                {
+                    errormsg = "Убери цифры из фамилии!";
+                    numberfound = true;
+                    break;
+                }
+            }
+            foreach (char letter in name)
+            {
+                if (char.IsNumber(letter))
+                {
+                    errormsg = "Убери цифры из имени!";
+                    numberfound = true;
+                    break;
+                }
+            }
+            foreach (char letter in otc)
+            {
+                if (char.IsNumber(letter))
+                {
+                    errormsg = "Убери цифры из отчества!";
+                    numberfound = true;
+                    break;
+                }
+            }
+            if (numberfound == true)
+            {
+                break;
+            }
             int id = Random.Shared.Next(0, 2000);
             Student st = new Student(id, surname, name, otc, imagesr, group_n, bday);
             students.Add(st);
+            surname = "";
+            name = "";
+            otc = "";
+            imagesr = "";
+            group_n = "";
+            bday = DateOnly.MinValue;
             break;
         }
-        surname = "";
-        name = "";
-        otc = "";
-        imagesr = "";
-        group_n = "";
-        bday = DateOnly.MinValue;
+
     }
     public void DeleteStud(Student st)
     {
