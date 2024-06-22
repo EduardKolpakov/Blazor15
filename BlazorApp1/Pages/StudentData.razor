@@ -52,6 +52,7 @@
                 <td>@stud.Group</td>
                 <td>@stud.Birthday.ToShortDateString()</td>
                 <td> <btn class="btn btn-primary" @onclick="e => DeleteStud(stud)"> Удалить </btn></td>
+                <td> <btn class="btn btn-primary" @onclick="e => EditStud(stud)"> Редактировать </btn></td>
             </tr>
         }
     </tbody>
@@ -100,6 +101,16 @@
     }
     public void DeleteStud(Student st)
     {
+        students.Remove(st);
+    }
+    public void EditStud(Student st)
+    {
+        name = st.Name;
+        surname = st.Surname;
+        otc = st.Otch;
+        imagesr = st.Image;
+        group_n = st.Group;
+        bday = st.Birthday;
         students.Remove(st);
     }
 }
